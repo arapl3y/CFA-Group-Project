@@ -14,24 +14,19 @@ class Agency
   attr_accessor :questions, :person_list
 
   system('clear')
-  5.times do
-    print "\u{1f60d} \u{1F618} "
-  end
-  puts "\n"
-  puts 'Welcome to Trentr!'.colorize(:light_red)
-  5.times do
-    print "\u{1f60d} \u{1F618} "
-  end
-  puts "\n\n"
+
+
   Catpix.print_image 'trentr.jpg',
                      limit_x: 0.7,
                      limit_y: 0.7,
-                     center_x: false,
+                     center_x: true,
                      center_y: false,
                      bg: nil,
                      bg_fill: false,
                      resolution: 'high'
   puts "\n\n"
+
+  puts "\u{1f60d} Welcome to Trentr!\u{1F618}\n".colorize(:light_red)
 
   def ask
     puts @questions
@@ -55,7 +50,7 @@ class Agency
     Catpix.print_image destination,
                        limit_x: 0.7,
                        limit_y: 0.7,
-                       center_x: false,
+                       center_x: true,
                        center_y: false,
                        bg: nil,
                        bg_fill: true,
@@ -66,26 +61,26 @@ class Agency
   def show_time(destination)
     tz = TZInfo::Timezone.get(destination.time)
     tz_string = tz.now.to_s
-    puts "    The current time in #{destination.name} is #{tz_string[11..19]}- also known as love o' clock and".colorize(:light_red)
+    puts "The current time in #{destination.name} is #{tz_string[11..19]}- also known as love o' clock and".colorize(:light_red)
   end
 
   def show_weather(destination)
     options = { units: 'metric', APPID: 'c1ce9d512a69e69adeb90b4a243590a9' }
     data = OpenWeather::Current.city(destination.name.to_s, options)
-    puts "    it's #{data['main']['temp']} degrees, with a forecast of #{data['weather'][0]['main']}, perfect for your first date!".colorize(:light_red)
+    puts "it's #{data['main']['temp']} degrees, with a forecast of #{data['weather'][0]['main']}, perfect for your first date!".colorize(:light_red)
   end
 
   def show_info(person)
     destination = person.origin
     show_image(destination.image)
-    puts "    Meet #{person.name} from #{destination.name}, ".colorize(:light_red)
+    puts "Meet #{person.name} from #{destination.name}, ".colorize(:light_red)
     puts person.description.colorize(:light_red)
     show_time(destination)
     show_weather(destination)
-    puts '
-      1) Do you like what you see?
-      2) See other options
-    '
+    puts "
+      1) Like what you see? \u{1F60F}
+      2) See other options \u{1F440}
+    "
     answer = STDIN.getch
 
     if answer == '2'
@@ -93,10 +88,11 @@ class Agency
       ask
     elsif answer == '1'
       show_image('match.png')
-      puts "    Congratulations, you've found a match with #{person.name}!".colorize(:light_red)
+      puts "Congratulations, you've found a match with #{person.name}!".colorize(:light_red)
+      puts "Thank you for using Trentr, #1 trenting app in the app store.".colorize(:light_red)
     else
       puts "Error. Please enter 1 or 2"
-      sleep 1
+      sleep 1.5
       system 'clear'
       ask
     end
