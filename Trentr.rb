@@ -1,126 +1,13 @@
 # Trentr - #1 Trenting App in the App store
+
+require_relative 'Trentr-people'
+require_relative 'Trentr-destination'
+require_relative 'Trentr-agency'
 require 'catpix'
 require 'tzinfo'
 require 'open_weather'
 require 'colorize'
 require 'IO/console'
-
-class People
-  def initialize(name, origin, description)
-    @name = name
-    @origin = origin
-    @description = description
-  end
-  attr_accessor :name, :origin, :description
-end # END PEOPLE CLASS
-
-class Destination
-  def initialize(name, image, place, time)
-    @name = name
-    @image = image
-    @place = place
-    @time = time
-  end
-  attr_accessor :name, :image, :place, :time
-end # END DESTINATION CLASS
-
-class Agency
-  def initialize(questions, person_list)
-    @questions = questions
-    @person_list = person_list
-  end
-
-  attr_accessor :questions, :person_list
-
-  system('clear')
-  5.times do
-    print "\u{1f60d} \u{1F618} "
-  end
-  puts "\n"
-  puts 'Welcome to Trentr!'.colorize(:light_red)
-  5.times do
-    print "\u{1f60d} \u{1F618} "
-  end
-  puts "\n\n"
-  Catpix.print_image 'trentr.jpg',
-                     limit_x: 0.7,
-                     limit_y: 0.7,
-                     center_x: false,
-                     center_y: false,
-                     bg: nil,
-                     bg_fill: false,
-                     resolution: 'high'
-  puts "\n\n"
-
-  def ask
-    puts @questions
-
-    input = STDIN.getch
-    case input
-    when '1'
-      show_info(@person_list[0])
-    when '2'
-      show_info(@person_list[1])
-    when '3'
-      show_info(@person_list[2])
-    when '4'
-      show_info(@person_list[3])
-    when '5'
-      show_info(@person_list[4])
-    end
-  end
-
-  def show_image(destination)
-    Catpix.print_image destination,
-                       limit_x: 0.7,
-                       limit_y: 0.7,
-                       center_x: false,
-                       center_y: false,
-                       bg: nil,
-                       bg_fill: true,
-                       resolution: 'high'
-    puts "\n\n"
-  end
-
-  def show_time(destination)
-    tz = TZInfo::Timezone.get(destination.time)
-    tz_string = tz.now.to_s
-    puts "    The current time in #{destination.name} is #{tz_string[11..19]}".colorize(:light_red)
-  end
-
-  def show_weather(destination)
-    options = { units: 'metric', APPID: 'c1ce9d512a69e69adeb90b4a243590a9' }
-    data = OpenWeather::Current.city(destination.name.to_s, options)
-
-    puts "    The current temperature is #{data['main']['temp']}, and the weather is #{data['weather'][0]['main']}".colorize(:light_red)
-  end
-
-  def show_info(person)
-    destination = person.origin
-    show_image(destination.image)
-    puts "    Meet #{person.name} from #{destination.name}".colorize(:light_red)
-    show_time(destination)
-    show_weather(destination)
-    puts '
-      1) Do you like what you see?
-      2) See other options
-    '
-    answer = STDIN.getch
-
-    if answer == '2'
-      system 'clear'
-      ask
-    elsif answer == '1'
-      show_image('match.png')
-      puts "Congratulations, you've found a match with #{person.name}"
-    else
-      puts "Error. Please enter 1 or 2"
-      sleep 1
-      system 'clear'
-      ask
-    end
-  end
-end # END AGENCY CLASS
 
 question_list = [
   '   1) Samba your way through the streets, exploring the cuisine and culture before settling down on the beach to watch the sun set with a caipirinha in hand...',
@@ -136,11 +23,11 @@ new_york = Destination.new('New York City', 'newyorkcity.jpg', 'The United State
 sydney = Destination.new('Sydney', 'sydney.jpg', 'Australia', 'Australia/Sydney')
 rio = Destination.new('Rio de Janeiro', 'riodejaneiro.jpg', 'Brazil', 'America/Sao_Paulo')
 
-trenaldo = People.new('Trenaldo', rio, 'Ruby')
-trenoir = People.new('Trenoir', paris, 'C')
-t_money = People.new('T-Money', new_york, 'Clojure')
-trezza = People.new('Trezza', sydney, 'BASIC')
-trent_upon_avon = People.new('Trent Upon Avon', london, 'Haskell')
+trenaldo = People.new('Trenaldo', rio, '    Trenaldo is a fun, easy-going and active, loves beach soccer and going for runs. His favourite programming language is Ruby.')
+trenoir = People.new('Trenoir', paris, '    Trenoir is sophisticated, sharp, and a little pompous, he loves the classics and continues to program in C.')
+t_money = People.new('T-Money', new_york, '    T-Money is funny, stylish and talented, however a few too many nights out have left him unhinged, he codes in JavaScript.')
+trezza = People.new('Trezza', sydney, '    Trezza\'s a simple bloke, love\'s his mates and sport, never really needed a computer ay...' )
+trent_upon_avon = People.new('Trent Upon Avon', london, '    Trent Upon Avon is a traditional gentleman and gifted Mathematician, he only writes in Haskell.')
 
 person_list = [
   trenaldo,
