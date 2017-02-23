@@ -17,10 +17,28 @@ The prerequesites are:
  - Ruby
  - The following Ruby Gems
     - catpix
+    ```
+    $ brew install imagemagick@6
+    $ brew link --force imagemagick@6
+    $ gem install rmagick    
+    $ gem install catpix
+    ```
     - tzinfo
+    ```
+    $ gem install tzinfo
+    ```
     - open_weather
+    ```
+    $ gem install open-weather
+    ```
     - colorize
+    ```
+    $ gem install colorize
+    ```
     - IO/console
+    ```
+    $ gem install IO/console
+    ```
     
 Download the code from the green button above
  - Code formatted as snippets
