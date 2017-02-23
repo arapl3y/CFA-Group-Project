@@ -41,7 +41,6 @@ The prerequesites are:
     ```
     
 Download the code from the green button above
- - Code formatted as snippets
 
 ### Usage instructions
 Once downloaded, in terminal run the following snippet and follow the prompts on the screen
